@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost/kanbanboards',{
 
 
 // Importing routes
-
+const indexRoutes = require('./routes/routeindex');
 
 // Settings
 app.set('port', process.env.PORT || 3000);
@@ -29,7 +29,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 
 // Routes
-
+app.use('/', indexRoutes);
 
 app.listen(app.get('port'), () =>{
     console.log(`server on port ${app.get('port')}`);
