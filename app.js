@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const morgan = require('morgan');
 
 // Express app
 const app = express();
@@ -16,8 +17,12 @@ mongoose.connect('mongodb://localhost/kanbanboards',{
     .catch(err => console.log(err));
 
 
-// Importing routes
-const indexRoutes = require('./routes/routeindex');
+// Importing routes and middlewares
+const indexRoutes = require('./routes/indexRouter');
+const userRoutes = require('./routes/userRoutes');
+const boardRoutes = require('./routes/boardRoutes');
+const taskRouter = require('./routes/taskRouter');
+const rootParams = require('./middleware/rootParams');
 
 // Settings
 app.set('port', process.env.PORT || 3000);
@@ -27,9 +32,13 @@ app.set('view engine', 'ejs');
 // Middlewares
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
+app.use(morgan('dev'));
 
 // Routes
-app.use('/', indexRoutes);
+app.use('/', rootParams, indexRoutes);
+app.use('/users', rootParams, userRoutes);
+app.use('/users/:userId/boards', rootParams, boardRoutes);
+app.use('/users/:userId/boards/:boardId/tasks', rootParams, taskRouter);
 
 app.listen(app.get('port'), () =>{
     console.log(`server on port ${app.get('port')}`);
