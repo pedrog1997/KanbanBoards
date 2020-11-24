@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Welcome page
 router.get('/', async (req, res) => {
-    res.render('Welcome page');
+    res.render('index');
 });
 
 router.get('/about', async (req, res) => {
