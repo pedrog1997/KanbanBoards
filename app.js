@@ -1,5 +1,6 @@
 // Dependencies
 const express = require('express');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
@@ -31,6 +32,7 @@ app.set('views', path.join(__dirname,'views'));
 app.set('view engine', 'ejs');
 
 // Middlewares
+app.use(methodOverride('_method'));
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(morgan('dev'));
