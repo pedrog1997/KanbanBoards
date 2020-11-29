@@ -1,10 +1,32 @@
 <%- include ("./partials/_header") %>
 
 <h1>User profile</h1>
-<h2><%=email%></h2>
 
-<nav>
-    <a href="/users/register"><button type="button" class="btn btn-primary">Register</button></a>
-</nav>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link rel="stylesheet" href="../css/styles.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="../css/styles.css" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="card">
+  <img src="img.jpg" alt="John" style="width:100%">
+
+  <h2><%=email%>  </h2>
+  <p class="title">USER</p>
+  <p>Administrator</p>
+  <a href="#"><i class="fa fa-dribbble"></i></a>
+  <a href="#"><i class="fa fa-twitter"></i></a>
+  <a href="#"><i class="fa fa-linkedin"></i></a>
+  <a href="#"><i class="fa fa-facebook"></i></a>
+  <p><button>Contact</button></p>
+</div>
 
 <%- include ("./partials/_footer") %>
