@@ -30,7 +30,13 @@ router.post('/login', async (req, res) => {
     else {
         const valid = await user.validatePassword(password);
         if (valid) {
-            const token = jwt.sign({email: user.email}, config.secret, {expiresIn: "1h"});
+            var token;
+            if (user.admin) {
+                token = jwt.sign({email: user.email, userId: user._id, admin: true}, config.secret, {expiresIn: "1h"});
+            }
+            else {
+                token = jwt.sign({email: user.email, userId: user._id}, config.secret, {expiresIn: "1h"});
+            }
             res.cookie("token", token, {httpOnly: true});
             res.redirect("/users/" + user._id + "/boards");
         }

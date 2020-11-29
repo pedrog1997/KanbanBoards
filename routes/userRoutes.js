@@ -6,6 +6,7 @@ const router = express.Router();
 
 const config = require('../config');
 const User = require('../model/user');
+const verify = require('../middleware/verifyToken');
 
 // Create user (register)
 router.get('/register', async (req, res) => {
@@ -19,7 +20,7 @@ router.post('/', async (req, res) => {
     user.password = await user.encryptPassword(user.password);
     await user.save();
     
-    const token = jwt.sign({email: user.email}, config.secret, {expiresIn: "1h"});
+    const token = jwt.sign({email: user.email, userId: user._id}, config.secret, {expiresIn: "1h"});
     res.cookie("token", token, {httpOnly: true});
 
 
@@ -29,27 +30,27 @@ router.post('/', async (req, res) => {
 
 // Read - Get User profile page
 // Get all users only with admin privileges
-router.get('/', async (req, res) => {
-
+router.get('/', [verify.admin], async (req, res) => {
+    res.json("/users/");
 });
-
-router.get('/:userId', async (req, res) => {
+// Public to all users
+router.get('/:userId', [verify.token], async (req, res) => {
     res.json("user profile page");
 });
 
 
 // Update
-router.get('/:userId/edit', async (req, res) => {
-    
+router.get('/:userId/edit', [verify.token, verify.user], async (req, res) => {
+    res.json("/users/" + req.params.userId + "/edit");
 });
 
-router.put('/:userId', async (req, res) => {
+router.put('/:userId', [verify.token, verify.user], async (req, res) => {
 
 });
 
 
 // Delete user (only website admin)
-router.delete(':userId', async (req, res) => {
+router.delete(':userId', [verify.admin], async (req, res) => {
 
 });
 

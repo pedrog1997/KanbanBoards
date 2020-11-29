@@ -3,7 +3,11 @@ const bcrypt = require("bcrypt");
 
 const UserSchema = Schema( {
     email: String,
-    password: String
+    password: String,
+    admin: {
+        type: Boolean,
+        default: false
+    }
 });
 
 UserSchema.methods.encryptPassword =  async function(password) {
