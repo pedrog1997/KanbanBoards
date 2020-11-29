@@ -9,9 +9,15 @@ const User = require('../model/user');
 const verify = require('../middleware/verifyToken');
 
 // Create user (register)
-router.get('/register', async (req, res) => {
+router.get('/register', verify.token, async (req, res) => {
     console.log("Estoy en /users/register");
-    res.render('register');
+    if (req.token) {
+        var user = await User.findById(req.token.userId)
+        return res.render('register', {user: user});
+    }
+    else {
+        res.render('register', {user: null});
+    }
 });
 
 router.post('/', async (req, res) => {
@@ -35,22 +41,32 @@ router.get('/', [verify.admin], async (req, res) => {
 });
 // Public to all users
 router.get('/:userId', [verify.token], async (req, res) => {
-    const token = req.cookies.token;
-    jwt.verify(token, config.secret, function(err, decoded) {
-        console.log(decoded);
-        res.render("userProfile", {email: decoded.email});
-    });
-    
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+        return res.status(404).send("The user does not exist");
+    }
+    else {
+        res.render("userProfile", {user: user});
+    }
 });
 
 
 // Update
 router.get('/:userId/edit', [verify.token, verify.user], async (req, res) => {
-    res.json("/users/" + req.params.userId + "/edit");
+    //res.json("/users/" + req.params.userId + "/edit");
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+        return res.status(404).send("The user does not exist");
+    }
+    else {
+        res.render('userEdit', user);
+    }
 });
 
 router.put('/:userId', [verify.token, verify.user], async (req, res) => {
-
+    var id = req.params.userId;
+    await User.update({_id: id}, req.body);
+    res.redirect("/users/" + id);
 });
 
 

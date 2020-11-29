@@ -6,17 +6,18 @@ function verifyToken(req, res, next) {
     const token = req.cookies.token || '';
 
     if (!token) {
-        res.redirect('/login');
+        req.token = null;
+        next();
     }
     else {
         jwt.verify(token,config.secret, function(err,decoded){
             if (err){
                 console.log(err);
-                return res.redirect("/login");
+                req.token = null;
+                next();
             }
             else {
-
-                req.userEmail = decoded.id;
+                req.token = decoded;
                 next();
             }
         });

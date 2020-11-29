@@ -7,7 +7,8 @@ const UserSchema = Schema( {
     admin: {
         type: Boolean,
         default: false
-    }
+    },
+    name: String
 });
 
 UserSchema.methods.encryptPassword =  async function(password) {

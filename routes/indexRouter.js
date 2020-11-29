@@ -6,17 +6,40 @@ const router = express.Router();
 const config = require("../config");
 const User = require('../model/user');
 
+const verify = require('../middleware/verifyToken');
+
 // Welcome page
-router.get('/', async (req, res) => {
-    res.render('index');
+router.get('/', verify.token, async (req, res) => {
+    if (req.token) {
+        var user = await User.findById(req.token.userId)
+        console.log(user);
+        return res.render('index', {user: user});
+    }
+    else {
+        res.render('index', {user: null});
+    }
 });
 
-router.get('/about', async (req, res) => {
-    res.render('about');
+router.get('/about', verify.token, async (req, res) => {
+    if (req.token) {
+        var user = await User.findById(req.token.userId)
+        return res.render('about', user);
+    }
+    else {
+        res.render('about', {user: null});
+    }
 });
 
-router.get('/login', async (req, res) => {
-    res.render('login');
+router.get('/login', verify.token, async (req, res) => {
+    if (req.token) {
+        console.log("login with token");
+        var user = await User.findById(req.token.userId)
+        return res.render('login', user);
+    }
+    else {
+        console.log("login without token");
+        res.render('login', {user: null});
+    }
 });
 
 router.post('/login', async (req, res) => {

@@ -1,54 +1,40 @@
-<!doctype html>
-<html lang="en">
+<%- include ("./partials/_header") %>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>Blog Template for Bootstrap</title>
-
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/blog/">
-
-  <!-- Bootstrap core CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-  <link href="https://getbootstrap.com/docs/4.0/examples/blog/blog.css" rel="stylesheet">
-
-  <link href="/css/login.css" rel="stylesheet">
-
-</head>
-
-<body>
-
+<div class="container">
+  <h1>Create a new account</h1>
   <form class="form-signin" action="/users" method="POST">
-    <img class="mb-4" src="https://e7.pngegg.com/pngimages/576/178/png-clipart-graphic-designer-logo-graphic-design-web-design-carnivoran.png" alt="" width="180"
-      height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Create a new account</h1>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required
-      autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
+    <div class="form-group row">
+      <label for="formGroupExampleInput" class="col-sm-2 col-form-label">Full name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Full name" name="name">
+      </div>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
+    <div class="form-group row">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="inputEmail3" name="email">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="inputPassword3" name="password">
+      </div>
+    </div>
+    <!--
+      <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Repeat password</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="inputPassword3" name="password2">
+      </div>
+    </div>
+    -->
+    <div class="form-group row">
+      <div class="col-sm-10">
+        <button type="submit" class="btn btn-primary">Register</button>
+      </div>
+    </div>
   </form>
+</div>
 
-  <!-- Bootstrap core JavaScript
-          ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-</body>
-
-</html>
+<%- include ("./partials/_footer") %>
