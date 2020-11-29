@@ -23,6 +23,7 @@ const userRoutes = require('./routes/userRoutes');
 const boardRoutes = require('./routes/boardRoutes');
 const taskRouter = require('./routes/taskRouter');
 const rootParams = require('./middleware/rootParams');
+const verify = require('./middleware/verifyToken');
 
 // Settings
 app.set('port', process.env.PORT || 3000);
@@ -36,9 +37,9 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/', rootParams, indexRoutes);
-app.use('/users', rootParams, userRoutes);
-app.use('/users/:userId/boards', rootParams, boardRoutes);
-app.use('/users/:userId/boards/:boardId/tasks', rootParams, taskRouter);
+app.use('/users', [rootParams], userRoutes);
+app.use('/users/:userId/boards', [rootParams, verify.token], boardRoutes);
+app.use('/users/:userId/boards/:boardId/tasks', [rootParams, verify.token], taskRouter);
 
 app.listen(app.get('port'), () =>{
     console.log(`server on port ${app.get('port')}`);
