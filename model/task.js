@@ -9,4 +9,4 @@ const TaskSchema = Schema( {
     Description: String
 });
 
-module.exports = model('users', UserSchema);
+module.exports = model('tasks', TaskSchema);

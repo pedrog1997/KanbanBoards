@@ -14,11 +14,16 @@ router.post('/', async (req, res) => {
 
 // Read boards
 router.get('/', async (req, res) => {
-    res.reder("boardEdit");
+    
 });
 
 router.get('/:boardId', async (req, res) => {
-
+    console.log(req.params);
+    res.render("boardEdit", {
+        userId: req.rootParams.userId, 
+        boardId: req.params.boardId,
+        taskId: 55
+    });
 });
 
 

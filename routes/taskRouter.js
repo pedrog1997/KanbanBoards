@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const Task = require('../model/task');
+
 
 // Create task
 router.get('/new', async (req, res) => {
@@ -8,7 +10,12 @@ router.get('/new', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    console.log("New task created");
 
+    var task = new Task({Title: req.body.title, Description: req.body.description});
+    await task.save();
+
+    res.redirect('/users/' + req.rootParams.userId + "/boards/" + req.rootParams.boardId);
 });
 
 
