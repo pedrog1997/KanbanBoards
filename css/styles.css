@@ -1,0 +1,25 @@
+#list{
+    border:1px rgb(124, 236, 59) solid;
+    margin:15px 0px;
+    padding:20px; 
+    background-color: #4c82af; 
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+  li {
+    display:list-item;
+    text-align:left;
+  }
+  .check2{
+    text-decoration: line-through;
+  }
+.form{
+  text-decoration: line-through;
+}
+.body{
+  background: #69aee7; 
+}

@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
 
 // Read boards
 router.get('/', async (req, res) => {
-    res.json("boards page");
+    res.reder("boardEdit");
 });
 
 router.get('/:boardId', async (req, res) => {
