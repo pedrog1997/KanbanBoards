@@ -35,7 +35,12 @@ router.get('/', [verify.admin], async (req, res) => {
 });
 // Public to all users
 router.get('/:userId', [verify.token], async (req, res) => {
-    res.json("user profile page");
+    const token = req.cookies.token;
+    jwt.verify(token, config.secret, function(err, decoded) {
+        console.log(decoded);
+        res.render("userProfile", {email: decoded.email});
+    });
+    
 });
 
 
