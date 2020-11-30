@@ -5,7 +5,6 @@ const User = require('../model/user');
 const Board = require('../model/board');
 const Task = require('../model/task');
 const verify = require('../middleware/verifyToken');
-const verifyToken = require('../middleware/verifyToken');
 
 // Create board
 router.post('/', verify.token, async (req, res) => {
@@ -71,18 +70,32 @@ router.get('/:boardId', async (req, res) => {
 
 
 // Update board
-router.get('/:boardId/edit', async (req, res) => {
+router.put('/:boardId', verify.token, async (req, res) => {
+    var {boardName, participants} = req.body;
+    var participantsEmails = participants.split(",").map(item => item.trim());
+    var participantsIds = []
+    for (var i = 0; i < participantsEmails.length; i++) {
+        var id = await User.find({email: participantsEmails[i]}, '_id');
+        participantsIds.push(id[0]._id.toString());
+    }
+    var updateBoard = {
+        userId: req.rootParams.userId,
+        userEmail: req.token.email,
+        participantsIds: participantsIds,
+        participantsEmails: participantsEmails,
+        boardName: boardName
+    }
+    await Board.findOneAndUpdate({_id: req.params.boardId}, updateBoard);
 
-});
-
-router.put('/:boardId', async (req, res) => {
-    console.log("I am in a put request");
+    res.redirect('/users/' + req.rootParams.userId + "/boards");
 });
 
 
 // Delete board
 router.delete('/:boardId', async (req, res) => {
+    await Board.deleteOne({_id: req.params.boardId});
 
+    res.redirect('/users/' + req.rootParams.userId + "/boards");
 });
 
 

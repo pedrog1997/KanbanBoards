@@ -15,12 +15,17 @@
                     <div class="card-body">
                         <h5 class="card-title"><%= ownBoards[i].boardName %></h5>
                         <h6 class="card-subtitle mb-2 text-muted"><%= ownBoards[i].userEmail %></h6>
+
                         <a href="/users/<%=user._id%>/boards/<%=ownBoards[i]._id%>" class="card-link">Show</a>
                         <a data-toggle="modal" href="#editBoardModal" class="card-link" 
                         data-boardtitle="<%=ownBoards[i].boardName%>" 
                         data-boardparticipants="<%=ownBoards[i].participantsEmails.join(', ')%>"
                         data-userid="<%=user._id%>"
                         data-boardid="<%=ownBoards[i]._id%>">Edit</a>
+                        <a data-toggle="modal" href="#deleteBoardModal" class="card-link"
+                        data-boardid="<%=ownBoards[i]._id%>"
+                        data-userid="<%=user._id%>">Delete</a>
+
                     </div>
                 </div>
             </li>
@@ -36,6 +41,14 @@
                         <h5 class="card-title"><%= sharedBoards[i].boardName %></h5>
                         <h6 class="card-subtitle mb-2 text-muted"><%= sharedBoards[i].userEmail %></h6>
                         <a href="/users/<%=user._id%>/boards/<%=sharedBoards[i]._id%>" class="card-link">Show</a>
+                        <a data-toggle="modal" href="#editBoardModal" class="card-link" 
+                        data-boardtitle="<%=sharedBoards[i].boardName%>" 
+                        data-boardparticipants="<%=sharedBoards[i].participantsEmails.join(', ')%>"
+                        data-userid="<%=user._id%>"
+                        data-boardid="<%=sharedBoards[i]._id%>">Edit</a>
+                        <a data-toggle="modal" href="#deleteBoardModal" class="card-link"
+                        data-boardid="<%=sharedBoards[i]._id%>"
+                        data-userid="<%=user._id%>">Delete</a>
                     </div>
                 </div>
             </li>
@@ -107,6 +120,28 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteBoardModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this board?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form name="deleteform" action="" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         $('#editBoardModal').on('show.bs.modal', function (e) {
@@ -121,6 +156,14 @@
             $(e.currentTarget).find('textarea[name ="participants"]').val(boardCollaborators);
             $(e.currentTarget).find('form[name="editform"]').attr(
                 'action', '/users/' + userId + '/boards/' + boardId + '?_method=PUT');
+        });
+
+        $('#deleteBoardModal').on('show.bs.modal', function (e) {
+            var boardId = $(e.relatedTarget).data('boardid');
+            var userId = $(e.relatedTarget).data('userid');
+
+            $(e.currentTarget).find('form[name="deleteform"]').attr(
+                'action', '/users/' + userId + '/boards/' + boardId + '?_method=DELETE');
         });
     });
 </script>
