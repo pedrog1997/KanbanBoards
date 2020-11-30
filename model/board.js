@@ -6,4 +6,4 @@ const BoardSchema = Schema( {
     boardName: String,
 });
 
-module.exports = model('users', UserSchema);
+module.exports = model('boards', BoardSchema);

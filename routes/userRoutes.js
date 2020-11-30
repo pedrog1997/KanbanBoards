@@ -59,7 +59,7 @@ router.get('/:userId/edit', [verify.token, verify.user], async (req, res) => {
         return res.status(404).send("The user does not exist");
     }
     else {
-        res.render('userEdit', user);
+        res.render('userEdit', {user: user});
     }
 });
 

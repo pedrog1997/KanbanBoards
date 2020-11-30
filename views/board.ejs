@@ -1,0 +1,62 @@
+<%- include ("./partials/_header") %>
+
+<div class="container">
+    <br>
+    <h1 class="text-center">Board name</h1>
+    <br>
+    <div class="row">
+        <div class="col-sm">
+            <h2 class="text-center">To do</h2>
+            <ul class="list-group list-group-flush">
+                <% for (var i = 0; i < todo.length; i++) { %>
+                    <li class="list-group-item">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= todo[i].Title %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><%= todo[i].authorId %></h6>
+                                <p class="card-text"><%= todo[i].Description %></p>
+                                <a href="#" class="card-link">Edit</a>
+                            </div>
+                        </div>
+                    </li>
+                <% } %> 
+            </ul>
+        </div>
+        <div class="col-sm">
+            <h2 class="text-center">In progress</h2>
+            <ul class="list-group list-group-flush">
+                <% for (var i = 0; i < inprogress.length; i++) { %>
+                    <li class="list-group-item">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= inprogress[i].Title %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><%= inprogress[i].authorId %></h6>
+                                <p class="card-text"><%= inprogress[i].Description %></p>
+                                <a href="#" class="card-link">Edit</a>
+                            </div>
+                        </div>
+                    </li>
+                <% } %> 
+            </ul>
+        </div>
+        <div class="col-sm">
+            <h2 class="text-center">Done</h2>
+            <ul class="list-group list-group-flush">
+                <% for (var i = 0; i < done.length; i++) { %>
+                    <li class="list-group-item">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= done[i].Title %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><%= done[i].authorId %></h6>
+                                <p class="card-text"><%= done[i].Description %></p>
+                                <a href="#" class="card-link">Edit</a>
+                            </div>
+                        </div>
+                    </li>
+                <% } %> 
+            </ul>
+        </div>
+    </div>
+</div>
+
+<%- include ("./partials/_footer") %>

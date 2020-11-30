@@ -4,7 +4,7 @@ const {Schema, model} = require("mongoose");
 const TaskSchema = Schema( {
     authorId: String,
     boardId: String,
-    status: String, // to-do, in-progress, done
+    status: String, // todo, inprogress, done
     Title: String,
     Description: String
 });

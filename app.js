@@ -40,8 +40,8 @@ app.use(morgan('dev'));
 // Routes
 app.use('/', rootParams, indexRoutes);
 app.use('/users', [rootParams], userRoutes);
-app.use('/users/:userId/boards', [rootParams, verify.token], boardRoutes);
-app.use('/users/:userId/boards/:boardId/tasks', [rootParams, verify.token], taskRouter);
+app.use('/users/:userId/boards', [verify.token, rootParams], boardRoutes);
+app.use('/users/:userId/boards/:boardId/tasks', [verify.token, rootParams], taskRouter);
 
 app.listen(app.get('port'), () =>{
     console.log(`server on port ${app.get('port')}`);
