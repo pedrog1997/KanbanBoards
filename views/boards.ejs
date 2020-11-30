@@ -1,6 +1,128 @@
 <%- include ("./partials/_header") %>
 
-<h1>Boards</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<div class="container">
+    <br>
+    <h1>Boards</h1>
+    <br>
+
+    <label for="ownBoardsList">Your boards:</label>
+    <ul class="list-group list-group-horizontal list-group-flush" id="ownBoardsList">
+        <% for (var i = 0; i < ownBoards.length; i++) { %>
+            <li class="list-group-item">
+                <div class="card" style="width: 15rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= ownBoards[i].boardName %></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><%= ownBoards[i].userEmail %></h6>
+                        <a href="/users/<%=user._id%>/boards/<%=ownBoards[i]._id%>" class="card-link">Show</a>
+                        <a data-toggle="modal" href="#editBoardModal" class="card-link" 
+                        data-boardtitle="<%=ownBoards[i].boardName%>" 
+                        data-boardparticipants="<%=ownBoards[i].participantsEmails.join(', ')%>"
+                        data-userid="<%=user._id%>"
+                        data-boardid="<%=ownBoards[i]._id%>">Edit</a>
+                    </div>
+                </div>
+            </li>
+        <% } %> 
+    </ul>
+    <br>
+    <label for="sharedBoardsList">Shared boards:</label>
+    <ul class="list-group list-group-horizontal list-group-flush" id="sharedBoardsList">
+        <% for (var i = 0; i < sharedBoards.length; i++) { %>
+            <li class="list-group-item">
+                <div class="card" style="width: 15rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= sharedBoards[i].boardName %></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><%= sharedBoards[i].userEmail %></h6>
+                        <a href="/users/<%=user._id%>/boards/<%=sharedBoards[i]._id%>" class="card-link">Show</a>
+                    </div>
+                </div>
+            </li>
+        <% } %> 
+    </ul>
+    <br>
+    <ul class="list-group list-group-horizontal">
+        <a href="#" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#newBoardModal"><h5 class="text-center">Create new board</h5></a>
+    </ul>
+    <br>
+
+</div>
+
+<div class="modal fade" id="newBoardModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form action="/users/<%=user._id%>/boards" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New board</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Board title</label>
+                        <input name="boardName" type="text" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Participants (user emails separated by comma)</label>
+                        <textarea name="participants" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="editBoardModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form name="editform" action="" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit board</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Board title</label>
+                        <input name="boardName" type="text" class="form-control" id="exampleFormControlInput1" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Participants (user emails separated by comma)</label>
+                        <textarea name="participants" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#editBoardModal').on('show.bs.modal', function (e) {
+            //get data-id attribute of the clicked element
+            var boardName = $(e.relatedTarget).data('boardtitle');
+            var boardCollaborators = $(e.relatedTarget).data('boardparticipants');
+            var boardId = $(e.relatedTarget).data('boardid');
+            var userId = $(e.relatedTarget).data('userid');
+
+            //populate the textbox
+            $(e.currentTarget).find('input[name="boardName"]').val(boardName);
+            $(e.currentTarget).find('textarea[name ="participants"]').val(boardCollaborators);
+            $(e.currentTarget).find('form[name="editform"]').attr(
+                'action', '/users/' + userId + '/boards/' + boardId + '?_method=PUT');
+        });
+    });
+</script>
 
 <%- include ("./partials/_footer") %>

@@ -5,22 +5,41 @@ const User = require('../model/user');
 const Board = require('../model/board');
 const Task = require('../model/task');
 const verify = require('../middleware/verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 
 // Create board
-router.get('/new', async (req, res) => {
-
-});
-
-router.post('/', async (req, res) => {
-
+router.post('/', verify.token, async (req, res) => {
+    var {boardName, participants} = req.body;
+    var participantsEmails = participants.split(",").map(item => item.trim());
+    var participantsIds = []
+    for (var i = 0; i < participantsEmails.length; i++) {
+        var id = await User.find({email: participantsEmails[i]}, '_id');
+        participantsIds.push(id[0]._id.toString());
+    }
+    var newBoard = new Board({
+        userId: req.rootParams.userId,
+        userEmail: req.token.email,
+        participantsIds: participantsIds,
+        participantsEmails: participantsEmails,
+        boardName: boardName
+    });
+    await newBoard.save();
+    res.redirect('/users/' + req.rootParams.userId + '/boards');
 });
 
 
 // Read boards
 router.get('/', async (req, res) => {
     var user = await User.findById(req.rootParams.userId);
+    var ownBoards = await Board.find({userId: user._id});
+    var sharedBoards = await Board.find({participantsIds: user._id});
+
     if (user) {
-        return res.render('boards', {user: user});
+        return res.render('boards', {
+            user: user,
+            ownBoards: ownBoards,
+            sharedBoards: sharedBoards
+        });
     }
     else {
         res.status(404).send("User not found");
@@ -57,7 +76,7 @@ router.get('/:boardId/edit', async (req, res) => {
 });
 
 router.put('/:boardId', async (req, res) => {
-
+    console.log("I am in a put request");
 });
 
 

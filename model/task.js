@@ -2,11 +2,11 @@ const { ObjectID } = require("bson");
 const {Schema, model} = require("mongoose");
 
 const TaskSchema = Schema( {
-    authorId: String,
+    authorEmail: String,
     boardId: String,
     status: String, // todo, inprogress, done
-    Title: String,
-    Description: String
+    title: String,
+    description: String
 });
 
 module.exports = model('tasks', TaskSchema);

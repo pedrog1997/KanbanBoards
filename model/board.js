@@ -2,7 +2,9 @@ const {Schema, model} = require("mongoose");
 
 const BoardSchema = Schema( {
     userId: String,
-    participants: [String],
+    userEmail: String,
+    participantsIds: [String],
+    participantsEmails: [String],
     boardName: String,
 });
 
