@@ -5,34 +5,18 @@ const Task = require('../model/task');
 
 
 // Create task
-router.get('/new', async (req, res) => {
-    console.log(req.params);
-    var user = await User.findById(req.rootParams.userId);
-    var board = await Board.findById(req.params.boardId);
-    var todo = await Task.find({boardId: req.params.boardId, status: 'todo'});
-    var inprogress = await Task.find({boardId: req.params.boardId, status: 'inprogress'});
-    var done = await Task.find({boardId: req.params.boardId, status: 'done'});
-    console.log(user);
-    console.log(board);
-    if (user && board) {
-        res.render('board', {
-            user: user,
-            board: board,
-            todo: todo,
-            inprogress: inprogress,
-            done: done,
-            newTask: true
-        });
-    }
-    else {
-        res.status(404).send("404 Not found");
-    }
-});
-
 router.post('/', async (req, res) => {
-    console.log("New task created");
+    console.log("New task in creation");
+    console.log("New task post req.body: ");
+    console.log(req.body);
 
-    var task = new Task({Title: req.body.title, Description: req.body.description});
+    var task = new Task({
+        authorEmail: req.body.userEmail,
+        boardId: req.rootParams.boardId,
+        status: req.body.status,
+        title: req.body.title, 
+        description: req.body.description
+    });
     await task.save();
 
     res.redirect('/users/' + req.rootParams.userId + "/boards/" + req.rootParams.boardId);

@@ -11,9 +11,11 @@ router.post('/', verify.token, async (req, res) => {
     var {boardName, participants} = req.body;
     var participantsEmails = participants.split(",").map(item => item.trim());
     var participantsIds = []
-    for (var i = 0; i < participantsEmails.length; i++) {
-        var id = await User.find({email: participantsEmails[i]}, '_id');
-        participantsIds.push(id[0]._id.toString());
+    if (req.body.participants.length > 0) {
+        for (var i = 0; i < participantsEmails.length; i++) {
+            var id = await User.find({email: participantsEmails[i]}, '_id');
+            participantsIds.push(id[0]._id.toString());
+        }
     }
     var newBoard = new Board({
         userId: req.rootParams.userId,

@@ -13,7 +13,7 @@
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title"><%= todo[i].title %></h5>
-                                <h6 class="card-subtitle mb-2 text-muted"><%= todo[i].authorId %></h6>
+                                <h6 class="card-subtitle mb-2 text-muted"><%= todo[i].authorEmail %></h6>
                                 <p class="card-text"><%= todo[i].description %></p>
                                 <a href="#" class="card-link">Edit</a>
                             </div>
@@ -22,7 +22,7 @@
                 <% } %> 
                 <li class="list-group-item">
                     <p class="text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskTodoModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
                             New task
                         </button>
                     </p>
@@ -36,9 +36,9 @@
                     <li class="list-group-item">
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                                <h5 class="card-title"><%= inprogress[i].Title %></h5>
-                                <h6 class="card-subtitle mb-2 text-muted"><%= inprogress[i].authorId %></h6>
-                                <p class="card-text"><%= inprogress[i].Description %></p>
+                                <h5 class="card-title"><%= inprogress[i].title %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><%= inprogress[i].authorEmail %></h6>
+                                <p class="card-text"><%= inprogress[i].description %></p>
                                 <a href="#" class="card-link">Edit</a>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                 <% } %> 
                 <li class="list-group-item">
                     <p class="text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskInprogressModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
                             New task
                         </button>
                     </p>
@@ -60,9 +60,9 @@
                     <li class="list-group-item">
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                                <h5 class="card-title"><%= done[i].Title %></h5>
-                                <h6 class="card-subtitle mb-2 text-muted"><%= done[i].authorId %></h6>
-                                <p class="card-text"><%= done[i].Description %></p>
+                                <h5 class="card-title"><%= done[i].title %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><%= done[i].authorEmail %></h6>
+                                <p class="card-text"><%= done[i].description %></p>
                                 <a href="#" class="card-link">Edit</a>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                 <% } %> 
                 <li class="list-group-item">
                     <p class="text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskDoneModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
                             New task
                         </button>
                     </p>
@@ -80,9 +80,9 @@
     </div>
 </div>
 
-<div class="modal fade" id="newTaskTodoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="newTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form action="/" method="GET">
+        <form name="newTaskForm" action="/users/<%=user._id%>/boards/<%=board._id%>/tasks" method="POST">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">New task</h5>
@@ -96,57 +96,41 @@
                         <input name="title" type="text" class="form-control" id="exampleFormControlInput1">
                     </div>
                     <div class="form-group">
+                        <label for="authorInput">Author:</label>
+                        <input name="userEmail" class="form-control" type="text" placeholder="<%=user.email%>" readonly
+                        value="<%=user.email%>">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Status</label>
+                        <select name="status" class="form-control" id="exampleFormControlSelect1">
+                          <option>todo</option>
+                          <option>inprogress</option>
+                          <option>done</option>
+                        </select>
+                      </div>
+                    <div class="form-group">
                         <label for="exampleFormControlTextarea1">Description</label>
                         <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Create task</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<div class="modal fade" id="newTaskInprogressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" id="newTaskDoneModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+    $(document).ready(function (e) {
+        $("#newTaskForm").submit(function(e) {
+            console.log("Form submit");
+            console.log(e);
+        });
+    });
+</script>
+
 
 <%- include ("./partials/_footer") %>
