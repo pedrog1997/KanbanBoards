@@ -1,40 +1,33 @@
-<form method="post" action="#" enctype="multipart/form-data">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="images/default-avatar.png">
-        <div class="card-body">
-            <h5 class="card-title">Sube una foto</h5>
-            <p class="card-text">Sube una imagen...</p>
-            <div class="form-group">
-                <label for="image">Nueva imagen</label>
-                <input type="file" class="form-control-file" name="image" id="image">
-            </div>
-            <input type="button" class="btn btn-primary upload" value="Subir">
-        </div>
-    </div>
-</form>
-
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<script>
-$(document).ready(function() {
-    $(".upload").on('click', function() {
-        var formData = new FormData();
-        var files = $('#image')[0].files[0];
-        formData.append('file',files);
-        $.ajax({
-            url: 'upload.php',
-            type: 'post',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                if (response != 0) {
-                    $(".card-img-top").attr("src", response);
-                } else {
-                    alert('Formato de imagen incorrecto.');
-                }
-            }
-        });
-        return false;
-    });
-});
-</script>
+    
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link rel="stylesheet" href="../css/styles.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  
+  <div id="register" class="form">
+    <form  action="mysuperscript.php" autocomplete="on"> 
+      <h1> Editar Informacion</h1> 
+      <p> 
+          <label for="usernamesignup" class="uname" >Tu nombre</label>
+          <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="Nombre" />
+      </p>
+      <p> 
+          <label for="emailsignup" class="youmail" > Tu email</label>
+          <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="ejemplo@mail.com"/> 
+      </p>
+      <p> 
+          <label for="passwordsignup" class="youpasswd" >Tu password </label>
+          <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Debe contener al menos un número y una letra minúscula y mayúscula, y al menos 8 o más caracteres"/> 
+      </p>
+      <p> 
+          <label for="passwordsignup_confirm" class="youpasswd" >Confirma tu password </label>
+          <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
+      </p>
+      <p class="signin button"> 
+          <input type="submit" value="Registro"/> 
+      </p>
+    </form>
+  </div>
