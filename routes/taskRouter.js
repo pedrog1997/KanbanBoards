@@ -23,23 +23,19 @@ router.post('/', async (req, res) => {
 });
 
 
-// Read tasks
-router.get('/', async (req, res) => {
-    res.json(req.rootParams);
-});
-
-router.get('/:taksId', async (req, res) => {
-
-});
-
-
 // Update task (Move from list to list (to-do, in progress, done))
-router.get('/:taskId/edit', async (req, res) => {
-
-});
-
 router.put('/:taskId', async (req, res) => {
+    var task = {
+        authorEmail: req.body.userEmail,
+        boardId: req.rootParams.boardId,
+        status: req.body.status,
+        title: req.body.title,
+        description: req.body.description
+    };
 
+    await Task.findOneAndUpdate({_id: req.params.taskId}, task);
+
+    res.redirect('/users/' + req.rootParams.userId + '/boards/' + req.rootParams.boardId);
 });
 
 

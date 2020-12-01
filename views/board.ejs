@@ -15,14 +15,21 @@
                                 <h5 class="card-title"><%= todo[i].title %></h5>
                                 <h6 class="card-subtitle mb-2 text-muted"><%= todo[i].authorEmail %></h6>
                                 <p class="card-text"><%= todo[i].description %></p>
-                                <a href="#" class="card-link">Edit</a>
+                                <a href="#editTaskModal" class="card-link" data-toggle="modal"
+                                data-userid="<%=user._id%>"
+                                data-boardid="<%=board._id%>"
+                                data-taskid="<%=todo[i]._id%>"
+                                data-title="<%= todo[i].title %>"
+                                data-description="<%= todo[i].description %>"
+                                data-status="todo">Edit</a>
                             </div>
                         </div>
                     </li>
                 <% } %> 
                 <li class="list-group-item">
                     <p class="text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal"
+                        data-status="todo">
                             New task
                         </button>
                     </p>
@@ -39,14 +46,21 @@
                                 <h5 class="card-title"><%= inprogress[i].title %></h5>
                                 <h6 class="card-subtitle mb-2 text-muted"><%= inprogress[i].authorEmail %></h6>
                                 <p class="card-text"><%= inprogress[i].description %></p>
-                                <a href="#" class="card-link">Edit</a>
+                                <a href="#editTaskModal" class="card-link" data-toggle="modal"
+                                data-userid="<%=user._id%>"
+                                data-boardid="<%=board._id%>"
+                                data-taskid="<%=inprogress[i]._id%>"
+                                data-title="<%= inprogress[i].title %>"
+                                data-description="<%= inprogress[i].description %>"
+                                data-status="inprogress">Edit</a>
                             </div>
                         </div>
                     </li>
                 <% } %> 
                 <li class="list-group-item">
                     <p class="text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal"
+                        data-status="inprogress">
                             New task
                         </button>
                     </p>
@@ -63,14 +77,21 @@
                                 <h5 class="card-title"><%= done[i].title %></h5>
                                 <h6 class="card-subtitle mb-2 text-muted"><%= done[i].authorEmail %></h6>
                                 <p class="card-text"><%= done[i].description %></p>
-                                <a href="#" class="card-link">Edit</a>
+                                <a href="#editTaskModal" class="card-link" data-toggle="modal"
+                                data-userid="<%=user._id%>"
+                                data-boardid="<%=board._id%>"
+                                data-taskid="<%=done[i]._id%>"
+                                data-title="<%= done[i].title %>"
+                                data-description="<%= done[i].description %>"
+                                data-status="done">Edit</a>
                             </div>
                         </div>
                     </li>
                 <% } %> 
                 <li class="list-group-item">
                     <p class="text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal"
+                        data-status="done">
                             New task
                         </button>
                     </p>
@@ -102,10 +123,10 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Status</label>
-                        <select name="status" class="form-control" id="exampleFormControlSelect1">
-                          <option>todo</option>
-                          <option>inprogress</option>
-                          <option>done</option>
+                        <select name="status" class="form-control" id="statusNew">
+                          <option value="todo">Todo</option>
+                          <option value="inprogress">In progress</option>
+                          <option value="done">Done</option>
                         </select>
                       </div>
                     <div class="form-group">
@@ -122,12 +143,69 @@
     </div>
 </div>
 
+<div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form name="editTaskForm" action="" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1"></label>
+                        <input name="title" type="text" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="form-group">
+                        <label for="authorInput">Author:</label>
+                        <input name="userEmail" class="form-control" type="text" placeholder="<%=user.email%>" readonly
+                        value="<%=user.email%>">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Status</label>
+                        <select name="status" class="form-control" id="statusEdit">
+                          <option value="todo">To do</option>
+                          <option value="inprogress">In progress</option>
+                          <option value="done">Done</option>
+                        </select>
+                      </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Description</label>
+                        <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Edit task</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <script>
     $(document).ready(function (e) {
-        $("#newTaskForm").submit(function(e) {
-            console.log("Form submit");
-            console.log(e);
+        $("#newTaskModal").on('show.bs.modal', function (e) {
+            var status = $(e.relatedTarget).data('status');
+            $('#statusNew option[value=' + status + ']').prop('selected', true);
+        });
+
+        $("#editTaskModal").on('show.bs.modal', function (e) {
+            var userId = $(e.relatedTarget).data('userid');
+            var boardId = $(e.relatedTarget).data('boardid');
+            var taskId = $(e.relatedTarget).data('taskid');
+            var title = $(e.relatedTarget).data('title');
+            var description = $(e.relatedTarget).data('description');
+            var status = $(e.relatedTarget).data('status');
+
+            $(e.currentTarget).find('input[name="title"]').val(title);
+            $('#statusEdit option[value=' + status + ']').prop('selected', true);
+            $(e.currentTarget).find('textarea[name="description"]').val(description);
+            $(e.currentTarget).find('form[name="editTaskForm"]').attr('action', 
+            '/users/' + userId + '/boards/' + boardId + '/tasks/' + taskId + '?_method=PUT');
         });
     });
 </script>
