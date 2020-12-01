@@ -50,19 +50,7 @@ router.get('/:userId', [verify.token], async (req, res) => {
     }
 });
 
-
 // Update
-router.get('/:userId/edit', [verify.token, verify.user], async (req, res) => {
-    //res.json("/users/" + req.params.userId + "/edit");
-    const user = await User.findById(req.params.userId);
-    if (!user) {
-        return res.status(404).send("The user does not exist");
-    }
-    else {
-        res.render('userEdit', {user: user});
-    }
-});
-
 router.put('/:userId', [verify.token, verify.user], async (req, res) => {
     var id = req.params.userId;
     await User.update({_id: id}, req.body);
