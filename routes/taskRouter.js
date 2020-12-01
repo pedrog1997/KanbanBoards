@@ -41,7 +41,9 @@ router.put('/:taskId', async (req, res) => {
 
 // Delete task
 router.delete('/:taskId', async (req, res) => {
+    await Task.deleteOne({_id: req.params.taskId});
 
+    res.redirect('/users/' + req.rootParams.userId + '/boards/' + req.rootParams.boardId);
 });
 
 

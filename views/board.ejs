@@ -22,6 +22,10 @@
                                 data-title="<%= todo[i].title %>"
                                 data-description="<%= todo[i].description %>"
                                 data-status="todo">Edit</a>
+                                <a data-toggle="modal" href="#deleteTaskModal" class="card-link"
+                                data-taskid="<%=todo[i]._id%>"
+                                data-boardid="<%=board._id%>"
+                                data-userid="<%=user._id%>">Delete</a>
                             </div>
                         </div>
                     </li>
@@ -53,6 +57,10 @@
                                 data-title="<%= inprogress[i].title %>"
                                 data-description="<%= inprogress[i].description %>"
                                 data-status="inprogress">Edit</a>
+                                <a data-toggle="modal" href="#deleteTaskModal" class="card-link"
+                                data-taskid="<%=inprogress[i]._id%>"
+                                data-boardid="<%=board._id%>"
+                                data-userid="<%=user._id%>">Delete</a>
                             </div>
                         </div>
                     </li>
@@ -84,6 +92,10 @@
                                 data-title="<%= done[i].title %>"
                                 data-description="<%= done[i].description %>"
                                 data-status="done">Edit</a>
+                                <a data-toggle="modal" href="#deleteTaskModal" class="card-link"
+                                data-taskid="<%=done[i]._id%>"
+                                data-boardid="<%=board._id%>"
+                                data-userid="<%=user._id%>">Delete</a>
                             </div>
                         </div>
                     </li>
@@ -185,6 +197,28 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this task?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form name="deleteform" action="" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     $(document).ready(function (e) {
@@ -206,6 +240,16 @@
             $(e.currentTarget).find('textarea[name="description"]').val(description);
             $(e.currentTarget).find('form[name="editTaskForm"]').attr('action', 
             '/users/' + userId + '/boards/' + boardId + '/tasks/' + taskId + '?_method=PUT');
+        });
+
+        $('#deleteTaskModal').on('show.bs.modal', function(e) {
+            var userId = $(e.relatedTarget).data('userid');
+            var boardId = $(e.relatedTarget).data('boardid');
+            var taskId = $(e.relatedTarget).data('taskid');
+
+            $(e.currentTarget).find('form[name="deleteform"]').attr(
+                'action', '/users/' + userId + '/boards/' + boardId + 
+                '/tasks/' + taskId + '?_method=DELETE');
         });
     });
 </script>
