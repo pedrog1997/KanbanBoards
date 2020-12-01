@@ -46,7 +46,7 @@ router.get('/:userId', [verify.token], async (req, res) => {
         return res.status(404).send("The user does not exist");
     }
     else {
-        res.render("userProfile", {user: user});
+        return res.render("userProfile", {user: user});
     }
 });
 
