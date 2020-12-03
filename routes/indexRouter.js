@@ -34,6 +34,9 @@ router.get('/login', verify.token, async (req, res) => {
     if (req.token) {
         console.log("login with token");
         var user = await User.findById(req.token.userId)
+        if (!user) {
+            res.json("User not found");
+        }
         return res.render('login', user);
     }
     else {
