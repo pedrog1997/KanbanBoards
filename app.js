@@ -10,7 +10,7 @@ const morgan = require('morgan');
 const app = express();
 
 // Connection to db
-mongoose.connect('mongodb://localhost/kanbanboards',{
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/kanbanboards', {
     useNewUrlParser:true,
     useUnifiedTopology:true
 })
