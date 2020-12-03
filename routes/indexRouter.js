@@ -13,35 +13,38 @@ router.get('/', verify.token, async (req, res) => {
     if (req.token) {
         var user = await User.findById(req.token.userId)
         console.log(user);
-        return res.render('index', {user: user});
+        return res.render('index', {
+            signed: true,
+            localUser: user,
+            user: user
+        });
     }
     else {
-        res.render('index', {user: null});
+        res.render('index', {signed: false, user: null});
     }
 });
 
 router.get('/about', verify.token, async (req, res) => {
     if (req.token) {
         var user = await User.findById(req.token.userId)
-        return res.render('about', user);
+        return res.render('about', {signed: true, localUser:user, user: user});
     }
     else {
-        res.render('about', {user: null});
+        res.render('about', {signed: false, user: null});
     }
 });
 
 router.get('/login', verify.token, async (req, res) => {
     if (req.token) {
-        console.log("login with token");
         var user = await User.findById(req.token.userId)
         if (!user) {
             res.json("User not found");
         }
-        return res.render('login', user);
+        return res.render('login', {signed: true, localUser:user, user: user});
     }
     else {
         console.log("login without token");
-        res.render('login', {user: null});
+        res.render('login', {signed:false, user: null});
     }
 });
 

@@ -5,6 +5,7 @@ const User = require('../model/user');
 const Board = require('../model/board');
 const Task = require('../model/task');
 const verify = require('../middleware/verifyToken');
+const { json } = require('express');
 
 // Create board
 router.post('/', verify.token, async (req, res) => {
@@ -30,13 +31,15 @@ router.post('/', verify.token, async (req, res) => {
 
 
 // Read boards
-router.get('/', async (req, res) => {
+router.get('/', verify.user, async (req, res) => {
     var user = await User.findById(req.rootParams.userId);
     var ownBoards = await Board.find({userId: user._id});
     var sharedBoards = await Board.find({participantsIds: user._id});
 
     if (user) {
         return res.render('boards', {
+            signed: true,
+            localUser: user,
             user: user,
             ownBoards: ownBoards,
             sharedBoards: sharedBoards
@@ -47,10 +50,25 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:boardId', async (req, res) => {
+router.get('/:boardId', verify.token, async (req, res) => {
     console.log(req.params);
+
+    if (!req.token) {
+        res.redirect('/login');
+    }
+    var localUser = await User.findById(req.token.userId);
     var user = await User.findById(req.rootParams.userId);
     var board = await Board.findById(req.params.boardId);
+
+    // verify
+    console.log("Verify user or participant");
+    console.log(board.userId);
+    console.log(req.rootParams.userId);
+    console.log(board.participantsIds.includes(req.rootParams.userId));
+    if (!(board.userId == localUser._id || board.participantsIds.includes(req.rootParams.userId))) {
+        return res.json("You do not have access to this page");
+    }
+
     var todo = await Task.find({boardId: req.params.boardId, status: 'todo'});
     var inprogress = await Task.find({boardId: req.params.boardId, status: 'inprogress'});
     var done = await Task.find({boardId: req.params.boardId, status: 'done'});
@@ -58,6 +76,8 @@ router.get('/:boardId', async (req, res) => {
     console.log(board);
     if (user && board) {
         res.render('board', {
+            signed: true,
+            localUser: localUser,
             user: user,
             board: board,
             todo: todo,
@@ -72,7 +92,7 @@ router.get('/:boardId', async (req, res) => {
 
 
 // Update board
-router.put('/:boardId', verify.token, async (req, res) => {
+router.put('/:boardId', [verify.token, verify.user], async (req, res) => {
     var {boardName, participants} = req.body;
     var participantsEmails = participants.split(",").map(item => item.trim());
     var participantsIds = []

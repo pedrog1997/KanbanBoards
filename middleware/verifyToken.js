@@ -43,7 +43,9 @@ function verifyUser(req, res, next) {
                     console.log("Admin access");
                     next();
                 }
-                if (decoded.userId == req.params.userId) {
+                
+                if (decoded.userId == req.rootParams.userId) {
+                    console.log("true");
                     next();
                 }
                 else {

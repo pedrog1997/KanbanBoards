@@ -26,22 +26,22 @@
                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <% if (user) {%>
-                            <a class="nav-link" href="/users/<%=user._id%>"><%=user.name%></a>
+                        <% if (signed) {%>
+                            <a class="nav-link" href="/users/<%=localUser._id%>"><%=localUser.name%></a>
                         <%} else {%>
                             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">User</a>
                         <%}%>
                     </li>
                     <li class="nav-item">
-                        <% if (user) {%>
-                            <a class="nav-link" href="/users/<%=user._id%>/boards">Boards</a>
+                        <% if (signed) {%>
+                            <a class="nav-link" href="/users/<%=localUser._id%>/boards">Boards</a>
                         <%} else {%>
                             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Boards</a>
                         <%}%>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="/logout" method="POST">
-                    <% if (user) {%>
+                    <% if (signed) {%>
                         <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Sign out</button>
                     <%} else {%>
                         <a class="nav-link" href="/login">Sign in</a>
