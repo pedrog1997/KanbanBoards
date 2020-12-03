@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const UserSchema = Schema( {
     email: String,
     password: String,
+    googleId: String,
     admin: {
         type: Boolean,
         default: false
