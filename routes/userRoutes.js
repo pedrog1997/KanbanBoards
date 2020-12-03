@@ -37,8 +37,14 @@ router.post('/', async (req, res) => {
 
 // Read - Get User profile page
 // Get all users only with admin privileges
-router.get('/', [verify.admin], async (req, res) => {
-    res.json("/users/");
+router.get('/', [verify.token], async (req, res) => {
+    if (req.token) {
+        var localUser = await User.findById(req.token.userId);
+        var users = await User.find();
+        res.render('users', {signed: true, localUser: localUser, users: users});
+    }else {
+        res.redirect('/login');
+    }
 });
 // Public to all users
 router.get('/:userId', [verify.token], async (req, res) => {
