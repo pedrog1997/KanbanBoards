@@ -76,10 +76,13 @@ router.put('/:boardId', verify.token, async (req, res) => {
     var {boardName, participants} = req.body;
     var participantsEmails = participants.split(",").map(item => item.trim());
     var participantsIds = []
-    console.log("Participants emails length" + participantsEmails.length);
+    console.log("Request body");
+    console.log(req.body);
     for (var i = 0; i < participantsEmails.length; i++) {
         var id = await User.find({email: participantsEmails[i]}, '_id');
-        participantsIds.push(id[0]._id.toString());
+        if (id[0]) {
+            participantsIds.push(id[0]._id.toString());
+        }
     }
     var updateBoard = {
         userId: req.rootParams.userId,
