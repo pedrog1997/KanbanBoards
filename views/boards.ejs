@@ -8,7 +8,7 @@
     <label for="ownBoardsList">Your boards:</label>
     <ul class="list-group list-group-horizontal list-group-flush" id="ownBoardsList">
         <% for (var i = 0; i < ownBoards.length; i++) { %>
-            <li class="list-group-item">
+            <li class="list-group-item border-0">
                 <div class="card" style="width: 15rem;">
                     <div class="card-body">
                         <h5 class="card-title"><%= ownBoards[i].boardName %></h5>
@@ -33,7 +33,7 @@
     <label for="sharedBoardsList">Shared boards:</label>
     <ul class="list-group list-group-horizontal list-group-flush" id="sharedBoardsList">
         <% for (var i = 0; i < sharedBoards.length; i++) { %>
-            <li class="list-group-item">
+            <li class="list-group-item border-0">
                 <div class="card" style="width: 15rem;">
                     <div class="card-body">
                         <h5 class="card-title"><%= sharedBoards[i].boardName %></h5>
