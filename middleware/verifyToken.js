@@ -44,7 +44,7 @@ function verifyUser(req, res, next) {
                     next();
                 }
                 
-                if (decoded.userId == req.rootParams.userId) {
+                if (decoded.userId == req.rootParams.userId || decoded.userId == req.params.userId) {
                     console.log("true");
                     next();
                 }
