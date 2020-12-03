@@ -27,7 +27,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: "1009295003646-rbh493oj3slpm7n75gpupo4jf8956s1k.apps.googleusercontent.com",
     clientSecret: "T4oWrD2HUgYwjVoaVS89C4ww",
-    callbackURL: "http://localhost:3000/google/callback"
+    callbackURL: "https://kanbanboardsapp.herokuapp.com/google/callback"
 },
     async function (accessToken, refreshToken, profile, done) {
         // Find ore create user
