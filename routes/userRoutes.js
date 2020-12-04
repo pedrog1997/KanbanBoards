@@ -50,7 +50,7 @@ router.get('/', [verify.token], async (req, res) => {
 router.get('/:userId', [verify.token], async (req, res) => {
     const user = await User.findById(req.params.userId);
     if (!user) {
-        return res.status(404).send("The user does not exist");
+        return res.render('notFound');
     }
     else {
         if (req.token) {

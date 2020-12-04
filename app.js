@@ -75,9 +75,11 @@ app.get('/google/callback',
         res.cookie("token", token, {httpOnly: true});
         res.redirect('/users/' + req.user._id);
         
-    });
+});
 
-
+app.all('*', function(req, res) {
+    res.render('notFound');
+});
 
 app.listen(app.get('port'), () =>{
     console.log(`server on port ${app.get('port')}`);
