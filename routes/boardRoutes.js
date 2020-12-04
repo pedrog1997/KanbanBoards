@@ -66,7 +66,7 @@ router.get('/:boardId', verify.token, async (req, res) => {
     console.log(req.rootParams.userId);
     console.log(board.participantsIds.includes(req.rootParams.userId));
     if (!(board.userId == localUser._id || board.participantsIds.includes(req.rootParams.userId))) {
-        return res.render(accessDenied);
+        return res.render('accessDenied');
     }
 
     var todo = await Task.find({boardId: req.params.boardId, status: 'todo'});
