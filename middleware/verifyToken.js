@@ -49,7 +49,7 @@ function verifyUser(req, res, next) {
                     next();
                 }
                 else {
-                    res.json("You do not have access to this page");
+                    res.render('accessDenied');
                 }
             }
         });
@@ -75,7 +75,7 @@ function verifyAdmin (req, res, next) {
                     next();
                 }
                 else {
-                    res.json("You do not have acess to this page");
+                    res.render('accessDenied');
                 }
             }
         });

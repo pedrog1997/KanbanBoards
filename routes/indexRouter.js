@@ -38,7 +38,7 @@ router.get('/login', verify.token, async (req, res) => {
     if (req.token) {
         var user = await User.findById(req.token.userId)
         if (!user) {
-            res.json("User not found");
+            res.render('notFound');
         }
         return res.render('login', {signed: true, localUser:user, user: user});
     }
@@ -54,7 +54,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({email: email});
 
     if (!user) {
-        return res.status(404).send("The user does not exist");
+        return res.render('notFound');
     }
     else {
         const valid = await user.validatePassword(password);
@@ -70,7 +70,7 @@ router.post('/login', async (req, res) => {
             res.redirect("/users/" + user._id + "/boards");
         }
         else {
-            res.status(401).send("Incorrect password");
+            res.render('notFound');
         }
     }
     

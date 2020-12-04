@@ -46,7 +46,7 @@ router.get('/', verify.user, async (req, res) => {
         });
     }
     else {
-        res.status(404).send("User not found");
+        res.render('notFound');
     }
 });
 
@@ -66,7 +66,7 @@ router.get('/:boardId', verify.token, async (req, res) => {
     console.log(req.rootParams.userId);
     console.log(board.participantsIds.includes(req.rootParams.userId));
     if (!(board.userId == localUser._id || board.participantsIds.includes(req.rootParams.userId))) {
-        return res.json("You do not have access to this page");
+        return res.render(accessDenied);
     }
 
     var todo = await Task.find({boardId: req.params.boardId, status: 'todo'});
@@ -86,7 +86,7 @@ router.get('/:boardId', verify.token, async (req, res) => {
         });
     }
     else {
-        res.status(404).send("404 Not found");
+        res.render('notFound');
     }
 });
 
